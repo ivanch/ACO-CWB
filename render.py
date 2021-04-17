@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 from graph import Graph
 
 PLOT_SIZE = 10000
-MARGIN_H = 500
-MARGIN_V = 500
+MARGIN_X = 500
+MARGIN_Y = 500
 
 def calc_bounding_box(graph):
   leftmost = sys.maxsize
@@ -28,29 +28,52 @@ def calc_bounding_box(graph):
     if y > upmost:
       upmost = y
 
+  size_x = rightmost - leftmost
+  size_y = upmost - downmost
   return (
-    leftmost,
     rightmost,
     upmost,
-    downmost,
+    size_x,
+    size_y,
   )
 
 def zoom_point(point: tuple, bounding_box: tuple):
-  l, r, u, d = bounding_box
-  size_x = r - l
-  size_y = u - d
-  x = PLOT_SIZE * (r - point[0]) / size_x
+  r, u, size_x, size_y = bounding_box
+  aspect_ratio = size_x / size_y
+  x = aspect_ratio * PLOT_SIZE * (r - point[0]) / size_x
   y = PLOT_SIZE * (u - point[1]) / size_y
 
   return (x, y)
 
 def plot(graph: Graph):
   bounding_box = calc_bounding_box(graph)
-
+  point_x = []
+  point_y = []
+  edge_x = []
+  edge_y = []
   for node in graph.nodes:
     point = zoom_point(node.point, bounding_box)
-    print(point)
-    plt.plot(point[0], point[1], 'ro')
+    point_x.append(point[0])
+    point_y.append(point[1])
 
-  plt.axis([-MARGIN_H, PLOT_SIZE + MARGIN_H, -MARGIN_V, PLOT_SIZE + MARGIN_V])
+  for key, x in enumerate(point_x):
+    for x2 in point_x[key + 1:]:
+      edge_x.append(x)
+      edge_x.append(x2)
+
+  for key, y in enumerate(point_y):
+    for y2 in point_y[key + 1:]:
+      edge_y.append(y)
+      edge_y.append(y2)
+
+  #plt.plot([x[0], x[1], x[0], x[2]], [y[0], y[1], y[0], y[2]], '-y')
+  plt.plot(edge_x, edge_y, '-y')
+  plt.plot(point_x, point_y, 'ro')
+  plt.axis([
+    -MARGIN_X,
+    PLOT_SIZE + MARGIN_X,
+    -MARGIN_Y,
+    PLOT_SIZE + MARGIN_Y
+  ])
+
   plt.show()

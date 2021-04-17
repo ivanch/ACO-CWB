@@ -33,8 +33,8 @@ def from_geo_coords_to_dist(coord_1: tuple, coord_2: tuple):
   return EARTH_RADIUS * c
 
 def get_position_from_geo_coords(coords: tuple):
-  x = (coords[0] + 180) * (EARTH_RADIUS * 2 / 360)
-  y = ((coords[1] * -1) + 90) * (EARTH_RADIUS * 2 / 180)
+  x = ((coords[1]* -1) + 180) * (EARTH_RADIUS * 2 / 360)
+  y = ((coords[0] * -1) + 90) * (EARTH_RADIUS * 2 / 180)
   return (x, y)
 
 # Função para gerar um grafo a partir de um arquivo de coordenadas
