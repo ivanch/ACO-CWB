@@ -78,16 +78,15 @@ def graph_from_file(filename):
 
     for (i, row1) in enumerate(rows):
       for row2 in rows[i + 1:]:
-        if row1[0] != row2[0]:
-          coord_1 = (float(row1[2]), float(row1[3]))
-          coord_2 = (float(row2[2]), float(row2[3]))
-          cost = from_geo_coords_to_dist(coord_1, coord_2)
+        coord_1 = (float(row1[2]), float(row1[3]))
+        coord_2 = (float(row2[2]), float(row2[3]))
+        cost = from_geo_coords_to_dist(coord_1, coord_2)
 
-          node_from = Graph.Node(int(row1[0]), row1[1], 0, 0)
-          node_to = Graph.Node(int(row2[0]), row2[1], 0, 0)
-          edge = Graph.Edge(cost)
+        node_to = Graph.Node(int(row1[0]), row1[1], 0, 0)
+        node_from = Graph.Node(int(row2[0]), row2[1], 0, 0)
+        edge = Graph.Edge(cost)
 
-          graph.add_edge(node_from, node_to, edge, bidirectional = True)
+        graph.add_edge(node_from, node_to, edge, bidirectional = True)
       
     return graph     
 
