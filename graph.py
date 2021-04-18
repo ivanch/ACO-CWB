@@ -1,11 +1,14 @@
+from traffic import get_expected_time
+
 class Graph:
   class Edge:
-    def __init__(self, cost):
+    def __init__(self, cost, traffic_cost):
       self.cost = cost
-      self.pheromone = 0.0
+      self.virtual_cost = get_expected_time(cost, traffic_cost)
+      self.pheromone = 1.0
 
     def __repr__(self):
-      return "Edge(%.2f)" % (self.cost)
+      return "Edge(%.2f, %.2f)" % (self.cost, self.virtual_cost)
 
   class Node:
     def __init__(self, id, name, point):

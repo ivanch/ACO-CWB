@@ -18,4 +18,4 @@ def gen_traffic_cost():
 # assumindo velocidade média em todo o percurso de 50 km/h (13,8 m/s).
 def get_expected_time(dist, traffic_cost):
   virtual_dist = dist * traffic_cost
-  return virtual_dist / TRAFFIC_SPEED
+  return dist / TRAFFIC_SPEED
