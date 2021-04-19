@@ -95,7 +95,9 @@ class ACO:
       edges[i].pheromone *= (1 - self.evaporation_rate)
 
   # Principal método da classe: roda a simulação
-  def run(self, iterations=80) -> List[int]:
+  # iterations : número de iterações
+  # on_iteration_completed : evento que será chamado quando uma iteração terminar (best_path, best_distance)
+  def run(self, iterations = 80, on_iteration_completed = None) -> List[int]:
     best_path = []
     best_distances = []
     for iteration in range(iterations):
@@ -147,6 +149,10 @@ class ACO:
 
       best_distances.append(best_distance)
 
+      if on_iteration_completed != None:
+        on_iteration_completed(best_path, best_distance)
+
+    plt.clf()
     plt.plot(range(len(best_distances)), best_distances)
     plt.savefig('best distances.png', dpi=300, bbox_inches='tight')
     plt.clf()
