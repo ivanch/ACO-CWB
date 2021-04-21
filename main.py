@@ -17,3 +17,4 @@ if __name__ == '__main__':
   best_path, best_distance = aco.run(iterations = 20, on_iteration_completed = on_iteration_completed)
 
   plt.show()
+  on_iteration_completed(best_path, best_distance)
