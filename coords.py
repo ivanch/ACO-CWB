@@ -1,6 +1,5 @@
 import math
 import csv
-from traffic import gen_traffic_cost
 
 from graph import Graph
 
@@ -59,8 +58,8 @@ def graph_from_file(filename: str):
 
         node_to = Graph.Node(int(row1[0]), row1[1], position_1)
         node_from = Graph.Node(int(row2[0]), row2[1], position_2)
-        edge = Graph.Edge(cost, gen_traffic_cost())
+        edge = Graph.Edge(cost, node_from, node_to)
 
-        graph.add_edge(node_from, node_to, edge, bidirectional = True)
+        graph.add_edge(edge, bidirectional = True)
       
     return graph
