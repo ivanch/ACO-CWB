@@ -7,11 +7,11 @@ TRAFFIC_SPEED = 13.8
 # Está sendo implementado como um simples RNG, para simular os aspectos estocásticos
 # da implementação.
 # O algoritmo RNG aleatório segue uma distribuição na forma de:
-# 50% -> 3
-# 20% -> 2, 4
-# 5% -> 1, 5 
+# 50% -> 1.5
+# 20% -> 1.25, 1.75
+# 5% -> 1, 2 
 def gen_traffic_cost():
-  weighted_costs = [1, 5] * 1 + [2, 4] * 4 + [3] * 10
+  weighted_costs = [1, 2] * 1 + [1.25, 1.75] * 4 + [1.5] * 10
   return random.choice(weighted_costs)
 
 # Calcula o tempo médio (em segundos) para percorrer uma distância

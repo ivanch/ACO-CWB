@@ -52,7 +52,7 @@ class Render:
 
     return (x, y)
 
-  def plot_path(self, path: list, point_x: list, point_y: list):
+  def plot_path(self, path: list, point_x: list, point_y: list, overall_best_path: list):
     path_x = []
     path_y = []
 
@@ -65,9 +65,9 @@ class Render:
       path_y.append(point_y[n])
 
     self.plt.plot(path_x, path_y, '-g', linewidth = BEST_PATH_LINE_WIDTH)
-    self.plt.plot(path_x[:2], path_y[:2], '-m', linewidth = BEST_PATH_LINE_WIDTH)
+    self.plt.plot(path_x[:len(overall_best_path)*2], path_y[:len(overall_best_path)*2], '-m', linewidth = BEST_PATH_LINE_WIDTH)
 
-  def plot(self, graph: Graph, path: list):
+  def plot(self, graph: Graph, path: list, overall_best_path: list):
     bounding_box = self.calc_bounding_box(graph)
     point_x = []
     point_y = []
@@ -95,7 +95,7 @@ class Render:
     self.plt.plot(point_x, point_y, 'ro')
     self.plt.plot(point_x[0], point_y[0], 'bo')
 
-    self.plot_path(path, point_x, point_y)
+    self.plot_path(path, point_x, point_y, overall_best_path)
 
     self.plt.axis([
       -MARGIN_X,
