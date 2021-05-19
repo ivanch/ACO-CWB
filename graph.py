@@ -17,7 +17,6 @@ class Graph:
     
     def reroll_cost(self):
       self.virtual_cost = get_expected_time(self.cost, gen_traffic_cost())
-      self.pheromone = 1.0
 
   class Node:
     def __init__(self, id, name, point):

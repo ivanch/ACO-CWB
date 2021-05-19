@@ -36,6 +36,10 @@ if __name__ == '__main__':
 
     print("Melhor caminho no geral:", overall_best_path)
     print("Melhor distância no geral:", traveled_distance)
+    for node in graph.nodes:
+      if node.id == best_path[overall_best_path_len]:
+        print("Próxima unidade de saúde em:", node.name)
+        break
 
     graph.reroll_costs()
     input("Go to next node...\n")
