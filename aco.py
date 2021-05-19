@@ -77,8 +77,11 @@ class ACO:
     return next_node
 
   def _get_edge_cost(self, from_node: int, to_node: int) -> float:
-    return self.graph.get_graph()[from_node][to_node].virtual_cost
-
+    # print("NODE FROM: %d, NODE TO: %d" % (from_node, to_node))
+    from_node_connections = self.graph.get_graph()[from_node]
+    if to_node in from_node_connections:
+      return self.graph.get_graph()[from_node][to_node].virtual_cost
+    return float("inf")
 
   # Intensifica o feromônio de uma aresta
   def _apply_pheromone(self, path: List[int]):
@@ -94,20 +97,34 @@ class ACO:
     for i in range(len(edges)):
       edges[i].pheromone *= (1 - self.evaporation_rate)
 
+  # Retorna a distância de um caminho
+  def get_distance_in_path(self, path):
+    distance = 0
+    if len(path) <= 1:
+      return 0
+
+    for i in range(len(path) - 1):
+      distance += self._get_edge_cost(path[i], path[i+1])
+
+    return distance
+
   # Principal método da classe: roda a simulação
   # iterations : número de iterações
   # on_iteration_completed : evento que será chamado quando uma iteração terminar (best_path, best_distance)
-  def run(self, iterations = 80, on_iteration_completed = None) -> List[int]:
+  def run(self, start_path = [0], iterations = 80, on_iteration_completed = None) -> List[int]:
     best_path = []
     best_distances = []
+    start_distance = self.get_distance_in_path(start_path)
+
     for iteration in range(iterations):
       print("Iteration %d/%d" % (iteration + 1, iterations))
       best_path = []
       best_distance = sys.maxsize
 
       for i in range(len(self.ants)):
-        # Formiga começa no nó inicial
-        self.ants[i].visit_node(self.graph.nodes[0].id, 0)
+        # Formiga visita os nós iniciais
+        for start_node in start_path:
+          self.ants[i].visit_node(start_node, start_distance/len(start_path))
 
         path_found = False
         while not path_found:
@@ -115,7 +132,7 @@ class ACO:
           possible_nodes = self._get_possible_nodes(ant.current_node, ant.visited_nodes)
 
           # Se não houver nenhum nó próximo possível, significa que a formiga percorreu todo o percurso
-          # Nesse caso, o for continuará para a próxima formiga
+          # Nesse caso, a formiga visita o nó 0 (volta ao começo)
           if len(possible_nodes) == 0:
             ant.visited_nodes.clear()
             ant.visited_nodes.append(ant.current_node)
@@ -143,10 +160,6 @@ class ACO:
       self._apply_pheromone(best_path)
       self._apply_evaporation()
 
-      print("Melhor caminho:", best_path)
-      print("Melhor distância:", best_distance)
-      print("\n")
-
       best_distances.append(best_distance)
 
       if on_iteration_completed != None:
@@ -156,5 +169,9 @@ class ACO:
     plt.plot(range(len(best_distances)), best_distances)
     plt.savefig('best distances.png', dpi=300, bbox_inches='tight')
     plt.clf()
+
+    print("Melhor caminho:", best_path)
+    print("Melhor distância:", best_distances[-1])
+    print("\n")
 
     return best_path, best_distances[-1]
