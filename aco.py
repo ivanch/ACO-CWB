@@ -117,7 +117,7 @@ class ACO:
     start_distance = self.get_distance_in_path(start_path)
 
     for iteration in range(iterations):
-      print("Iteration %d/%d" % (iteration + 1, iterations))
+      print("Iteração %d/%d" % (iteration + 1, iterations))
       best_path = []
       best_distance = sys.maxsize
 
