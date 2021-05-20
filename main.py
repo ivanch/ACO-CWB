@@ -42,7 +42,7 @@ if __name__ == '__main__':
         break
 
     graph.reroll_costs()
-    input("Go to next node...\n")
+    input("Ir para próximo nó...\n")
 
   print("Melhor caminho no geral:", overall_best_path)
   print("Melhor distância no geral:", traveled_distance)

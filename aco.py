@@ -165,11 +165,6 @@ class ACO:
       if on_iteration_completed != None:
         on_iteration_completed(best_path, best_distance)
 
-    plt.clf()
-    plt.plot(range(len(best_distances)), best_distances)
-    plt.savefig('best distances.png', dpi=300, bbox_inches='tight')
-    plt.clf()
-
     print("Melhor caminho:", best_path)
     print("Melhor distância:", best_distances[-1])
     print("\n")
